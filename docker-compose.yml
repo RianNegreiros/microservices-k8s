@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  catalogdb:
+    image: mongo:latest
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - ~/apps/mongo:/data/db
+  
+  catalogapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=mongodb://catalogdb:27017"
+    ports:
+      - "8000:80"
+    depends_on:
+      - catalogdb
