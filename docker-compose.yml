@@ -21,7 +21,7 @@ services:
       dockerfile: Basket.API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "CacheSettings:ConnectionString=basket:6379"
+      - "CacheSettings:ConnectionString=basket-db:6379"
     ports:
       - "8001:80"
     depends_on:
