@@ -1,22 +1,54 @@
 version: '3.9'
 
 services:
-  catalogdb:
+  catalog-db:
     image: mongo:latest
     restart: always
     ports:
       - '27017:27017'
     volumes:
-      - ~/apps/mongo:/data/db
+      - mongo_data:/data/db
+
+  basket-db:
+    image: redis:alpine
+    restart: always
+    ports:
+      - '6379:6379'
   
-  catalogapi:
+  portainer:
+    image: portainer/portainer-ce
+    restart: always
+    ports:
+      - "8080:8000"
+      - "9000:9000"
+    volumes:
+      - portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    
+  basket-api:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Basket.API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "DatabaseSettings:ConnectionString=mongodb://catalogdb:27017"
+      - "CacheSettings:ConnectionString=basket-db:6379"
+    ports:
+      - "8001:80"
+    depends_on:
+      - basket-db
+
+  catalog-api:
+    build:
+      context: .
+      dockerfile: Catalog.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=mongodb://catalog-db:27017"
     ports:
       - "8000:80"
     depends_on:
-      - catalogdb
+      - catalog-db
+    
+volumes:
+  mongo_data:
+  portainer_data:
