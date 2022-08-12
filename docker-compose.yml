@@ -14,6 +14,18 @@ services:
     restart: always
     ports:
       - '6379:6379'
+
+  discount-db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: DiscountDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
   
   portainer:
     image: portainer/portainer-ce
@@ -48,7 +60,21 @@ services:
       - "8000:80"
     depends_on:
       - catalog-db
-    
+
+
+  discount-api:
+    build:
+      context: .
+      dockerfile: Discount.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=mongodb://catalog-db:27017"
+    ports:
+      - "8002:80"
+    depends_on:
+      - discount-db
+
 volumes:
   mongo_data:
   portainer_data:
+  postgres_data:
