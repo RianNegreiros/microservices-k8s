@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  catalogdb:
+  catalog-db:
     image: mongo:latest
     restart: always
     ports:
@@ -9,35 +9,32 @@ services:
     volumes:
       - ~/apps/mongo:/data/db
         
-  redis:
-    image: redis:latest
+  basket-db:
+    image: redis:alpine
+    restart: always
     ports:
       - '6379:6379'
-    command: [ "redis-server", "--appendonly", "yes" ]
-    volumes:
-      - redis-data:/data
-  redis-commander:
-    image: rediscommander/redis-commander:latest
-    environment:
-      - REDIS_HOSTS=local:redis:6379
-      - HTTP_USER=root
-      - HTTP_PASSWORD=secret
-    ports:
-      - '8081:8081'
-    depends_on:
-        - redis
-
-  catalogapi:
+    
+  basket-api:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Basket.API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "DatabaseSettings:ConnectionString=mongodb://catalogdb:27017"
+      - "CacheSettings:ConnectionString=basket:6379"
+    ports:
+      - "8001:80"
+    depends_on:
+      - basket-db
+
+  catalog-api:
+    build:
+      context: .
+      dockerfile: Catalog.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=mongodb://catalog-db:27017"
     ports:
       - "8000:80"
     depends_on:
-      - catalogdb
-  
-volumes:
-  redis-data:
+      - catalog-db

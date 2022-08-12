@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{3D6C5B6B-B37A-4F95-971A-5B73B15FDEEC}"
 	ProjectSection(SolutionItems) = preProject
-		Dockerfile = Dockerfile
-		.dockerignore = .dockerignore
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
