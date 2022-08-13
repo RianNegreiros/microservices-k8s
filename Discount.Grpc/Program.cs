@@ -1,5 +1,7 @@
 using Discount.Grpc.Core.Interfaces;
 using Discount.Grpc.Extensions;
+using Discount.Grpc.Grpc.Helpers;
+using Discount.Grpc.Grpc.Services;
 using Discount.Grpc.Infra.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,11 +11,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
+builder.Services.AddAutoMapper(typeof(DiscountProfile));
 builder.Services.AddGrpc();
 
 var app = builder.Build();
 
 app.MigrateDatabase<Program>();
+
+app.MapGrpcService<DiscountService>();
 
 // Configure the HTTP request pipeline.
 app.Run();
