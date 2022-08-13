@@ -54,6 +54,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "CacheSettings:ConnectionString=basket-db:6379"
+      - "GrpcSettings:DiscountUrl=discount-grpc"
     ports:
       - "8001:80"
     depends_on:
@@ -80,6 +81,18 @@ services:
       - "DatabaseSettings:ConnectionString=Host=discount-db; Port=5432; Database=DiscountDb; Username=postgres; Password=postgres;"
     ports:
       - "8002:80"
+    depends_on:
+      - discount-db
+
+  discount-grpc:
+    build:
+      context: .
+      dockerfile: Discount.Grpc/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=Host=discount-db; Port=5432; Database=DiscountDb; Username=postgres; Password=postgres;"
+    ports:
+      - "8003:80"
     depends_on:
       - discount-db
 
