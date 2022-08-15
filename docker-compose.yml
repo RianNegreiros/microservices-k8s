@@ -26,6 +26,15 @@ services:
       - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+
+  order-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: always
+    environment:
+      SA_PASSWORD: "Order!ngD4t4b4se"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
   
   pgadmin:
     container_name: pgadmin4_container
@@ -46,11 +55,11 @@ services:
     volumes:
       - portainer_data:/data
       - /var/run/docker.sock:/var/run/docker.sock
-    
+  
   basket-api:
     build:
       context: .
-      dockerfile: Basket.API/Dockerfile
+      dockerfile: Services/Basket/Basket.API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "CacheSettings:ConnectionString=basket-db:6379"
@@ -63,7 +72,7 @@ services:
   catalog-api:
     build:
       context: .
-      dockerfile: Catalog.API/Dockerfile
+      dockerfile: Services/Catalog/Catalog.API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "DatabaseSettings:ConnectionString=mongodb://catalog-db:27017"
@@ -75,7 +84,7 @@ services:
   discount-api:
     build:
       context: .
-      dockerfile: Discount.API/Dockerfile
+      dockerfile: Services/Discount/Discount.API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "DatabaseSettings:ConnectionString=Host=discount-db; Port=5432; Database=DiscountDb; Username=postgres; Password=postgres;"
@@ -87,7 +96,7 @@ services:
   discount-grpc:
     build:
       context: .
-      dockerfile: Discount.Grpc/Dockerfile
+      dockerfile: Services/Discount/Discount.Grpc/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "DatabaseSettings:ConnectionString=Host=discount-db; Port=5432; Database=DiscountDb; Username=postgres; Password=postgres;"
@@ -95,6 +104,18 @@ services:
       - "8003:80"
     depends_on:
       - discount-db
+
+  order-api:
+    build:
+      context: .
+      dockerfile: Services/Ordering/Ordering.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:OrderingConnectionString=Server=order-db;Database=order-db;User Id=sa;Password=Order!ngD4t4b4se"
+    ports:
+      - "8004:80"
+    depends_on:
+      - ordersdb
 
 volumes:
   mongo_data:
