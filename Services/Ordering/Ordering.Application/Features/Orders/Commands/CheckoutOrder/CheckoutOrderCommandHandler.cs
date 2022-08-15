@@ -27,7 +27,7 @@ public class CheckoutOrderCommandHandler : IRequestHandler<CheckoutOrderCommand,
     {
         var orderEntity = _mapper.Map<Order>(request);
         var newOrder = await _orderRepository.AddAsync(orderEntity);
-        
+
         _logger.LogInformation($"Order {newOrder.Id} is successfully created.");
 
         await SendMail(newOrder);
@@ -35,10 +35,9 @@ public class CheckoutOrderCommandHandler : IRequestHandler<CheckoutOrderCommand,
         return newOrder.Id;
     }
 
-
     private async Task SendMail(Order order)
     {
-        var email = new Email() { To = order.Email, Body = $"Order was created", Subject = "Order was created" };
+        var email = new Email() { To = "riannegreiros@dev", Body = $"Order was created.", Subject = "Order was created" };
 
         try
         {
@@ -46,7 +45,7 @@ public class CheckoutOrderCommandHandler : IRequestHandler<CheckoutOrderCommand,
         }
         catch (System.Exception ex)
         {
-            _logger.LogError("Order {OrderId} failed due to an error with the mail service: {ExMessage}", order.Id, ex.Message);
+            _logger.LogError($"Order {order.Id} failed due to an error with the mail service: {ex.Message}");
         }
     }
 }
