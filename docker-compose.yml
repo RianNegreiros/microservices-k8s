@@ -26,6 +26,15 @@ services:
       - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+
+  order-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: always
+    environment:
+      SA_PASSWORD: "Order!ngD4t4b4se"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
   
   pgadmin:
     container_name: pgadmin4_container
@@ -95,6 +104,18 @@ services:
       - "8003:80"
     depends_on:
       - discount-db
+
+  order-api:
+    build:
+      context: .
+      dockerfile: Services/Ordering/Ordering.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:OrderingConnectionString=Server=order-db;Database=order-db;User Id=sa;Password=Order!ngD4t4b4se"
+    ports:
+      - "8004:80"
+    depends_on:
+      - ordersdb
 
 volumes:
   mongo_data:
