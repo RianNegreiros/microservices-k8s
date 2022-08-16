@@ -26,8 +26,8 @@ services:
       - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-
-  order-db:
+        
+  ordering-db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     restart: always
     environment:
@@ -35,6 +35,13 @@ services:
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
   
   pgadmin:
     container_name: pgadmin4_container
@@ -64,10 +71,12 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - "CacheSettings:ConnectionString=basket-db:6379"
       - "GrpcSettings:DiscountUrl=discount-grpc"
+      - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
     ports:
       - "8001:80"
     depends_on:
       - basket-db
+      - rabbitmq
 
   catalog-api:
     build:
@@ -105,17 +114,20 @@ services:
     depends_on:
       - discount-db
 
-  order-api:
+  ordering-api:
     build:
       context: .
       dockerfile: Services/Ordering/Ordering.API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionStrings:OrderingConnectionString=Server=order-db;Database=order-db;User Id=sa;Password=Order!ngD4t4b4se"
+      - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
+
     ports:
       - "8004:80"
     depends_on:
-      - ordersdb
+      - ordering-db
+      - rabbitmq
 
 volumes:
   mongo_data:
