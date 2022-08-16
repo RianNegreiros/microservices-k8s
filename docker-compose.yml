@@ -26,8 +26,8 @@ services:
       - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-
-  order-db:
+        
+  ordering-db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     restart: always
     environment:
@@ -115,7 +115,7 @@ services:
     ports:
       - "8004:80"
     depends_on:
-      - ordersdb
+      - ordering-db
 
 volumes:
   mongo_data:
