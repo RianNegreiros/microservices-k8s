@@ -142,6 +142,22 @@ services:
       - discount-api
       - ordering-api
 
+  shopping-aggregator:
+    build:
+      context: .
+      dockerfile: ApiGateways/Shopping.Aggregator/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ApiSettings:CatalogUrl=http://catalog-api"
+      - "ApiSettings:BasketUrl=http://basket-api"
+      - "ApiSettings:OrderingUrl=http://ordering-api"
+    depends_on:
+      - catalog-api
+      - basket-api
+      - ordering-api
+    ports:
+      - "8005:80"
+
 volumes:
   mongo_data:
   portainer_data:
