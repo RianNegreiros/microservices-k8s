@@ -122,12 +122,25 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionStrings:OrderingConnectionString=Server=order-db;Database=order-db;User Id=sa;Password=Order!ngD4t4b4se"
       - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
-
     ports:
       - "8004:80"
     depends_on:
       - ordering-db
       - rabbitmq
+
+  ocelot-api-gateway:
+    build:
+      context: .
+      dockerfile: ApiGateways/OcelotApiGateway/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8010:80"
+    depends_on:
+      - catalog-api
+      - basket-api
+      - discount-api
+      - ordering-api
 
 volumes:
   mongo_data:
