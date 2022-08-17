@@ -158,6 +158,22 @@ services:
     ports:
       - "8005:80"
 
+  shopping-web-app:
+    build:
+      context: .
+      dockerfile: WebApps/Shopping/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ApiSettings:GateWayAddress=http://ocelot-api-gateway"
+    depends_on:
+      - ocelot-api-gateway
+      - catalog-api
+      - basket-api
+      - discount-api
+      - ordering-api
+    ports:
+      - "8006:80"
+
 volumes:
   mongo_data:
   portainer_data:
