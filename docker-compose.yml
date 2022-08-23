@@ -1,180 +1,77 @@
-version: '3.9'
+version: '3.4'
 
 services:
-  catalog-db:
-    image: mongo:latest
-    restart: always
-    ports:
-      - '27017:27017'
-    volumes:
-      - mongo_data:/data/db
+  catalogdb:
+    image: mongo
 
-  basket-db:
+  basketdb:
     image: redis:alpine
-    restart: always
-    ports:
-      - '6379:6379'
 
-  discount-db:
-    image: postgres:latest
-    restart: always
-    environment:
-      POSTGRES_DB: DiscountDb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - '5432:5432'
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-        
-  ordering-db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    restart: always
-    environment:
-      SA_PASSWORD: "Order!ngD4t4b4se"
-      ACCEPT_EULA: "Y"
-    ports:
-      - "1433:1433"
+  discountdb:
+    image: postgres
+
+  orderdb:
+    image: mcr.microsoft.com/mssql/server:2017-latest
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
-    restart: always
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-  
+
   pgadmin:
-    container_name: pgadmin4_container
     image: dpage/pgadmin4
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - "5050:80"
   
   portainer:
     image: portainer/portainer-ce
-    restart: always
-    ports:
-      - "8080:8000"
-      - "9000:9000"
-    volumes:
-      - portainer_data:/data
-      - /var/run/docker.sock:/var/run/docker.sock
-  
-  basket-api:
-    build:
-      context: .
-      dockerfile: Services/Basket/Basket.API/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - "CacheSettings:ConnectionString=basket-db:6379"
-      - "GrpcSettings:DiscountUrl=discount-grpc"
-      - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
-    ports:
-      - "8001:80"
-    depends_on:
-      - basket-db
-      - rabbitmq
 
-  catalog-api:
+  catalog.api:
+    image: ${DOCKER_REGISTRY-}catalogapi
     build:
       context: .
       dockerfile: Services/Catalog/Catalog.API/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - "DatabaseSettings:ConnectionString=mongodb://catalog-db:27017"
-    ports:
-      - "8000:80"
-    depends_on:
-      - catalog-db
 
-  discount-api:
+  basket.api:
+    image: ${DOCKER_REGISTRY-}basketapi
+    build:
+      context: .
+      dockerfile: Services/Basket/Basket.API/Dockerfile
+
+  discount.api:
+    image: ${DOCKER_REGISTRY-}discountapi
     build:
       context: .
       dockerfile: Services/Discount/Discount.API/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - "DatabaseSettings:ConnectionString=Host=discount-db; Port=5432; Database=DiscountDb; Username=postgres; Password=postgres;"
-    ports:
-      - "8002:80"
-    depends_on:
-      - discount-db
 
-  discount-grpc:
+  discount.grpc:
+    image: ${DOCKER_REGISTRY-}discountgrpc
     build:
       context: .
       dockerfile: Services/Discount/Discount.Grpc/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - "DatabaseSettings:ConnectionString=Host=discount-db; Port=5432; Database=DiscountDb; Username=postgres; Password=postgres;"
-    ports:
-      - "8003:80"
-    depends_on:
-      - discount-db
 
-  ordering-api:
+  ordering.api:
+    image: ${DOCKER_REGISTRY-}orderingapi
     build:
       context: .
       dockerfile: Services/Ordering/Ordering.API/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings:OrderingConnectionString=Server=order-db;Database=order-db;User Id=sa;Password=Order!ngD4t4b4se"
-      - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
-    ports:
-      - "8004:80"
-    depends_on:
-      - ordering-db
-      - rabbitmq
 
-  ocelot-api-gateway:
+  ocelotapigw:
+    image: ${DOCKER_REGISTRY-}ocelotapigw
     build:
       context: .
       dockerfile: ApiGateways/OcelotApiGateway/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "8010:80"
-    depends_on:
-      - catalog-api
-      - basket-api
-      - discount-api
-      - ordering-api
-
-  shopping-aggregator:
+  
+  shopping.aggregator:
+    image: ${DOCKER_REGISTRY-}shoppingaggregator
     build:
       context: .
       dockerfile: ApiGateways/Shopping.Aggregator/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - "ApiSettings:CatalogUrl=http://catalog-api"
-      - "ApiSettings:BasketUrl=http://basket-api"
-      - "ApiSettings:OrderingUrl=http://ordering-api"
-    depends_on:
-      - catalog-api
-      - basket-api
-      - ordering-api
-    ports:
-      - "8005:80"
 
-  shopping-web-app:
+  shoppingwebapp:
+    image: ${DOCKER_REGISTRY-}shoppingwebapp
     build:
       context: .
       dockerfile: WebApps/Shopping/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - "ApiSettings:GateWayAddress=http://ocelot-api-gateway"
-    depends_on:
-      - ocelot-api-gateway
-      - catalog-api
-      - basket-api
-      - discount-api
-      - ordering-api
-    ports:
-      - "8006:80"
 
 volumes:
   mongo_data:
   portainer_data:
   postgres_data:
+  pgadmin_data:
