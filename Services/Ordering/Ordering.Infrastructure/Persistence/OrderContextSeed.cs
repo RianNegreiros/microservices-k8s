@@ -11,7 +11,7 @@ public class OrderContextSeed
         {
             orderContext.Orders.AddRange(GetPreconfiguredOrders());
             await orderContext.SaveChangesAsync();
-            logger.LogInformation("Seed database associated with context {DbContextName}", typeof(OrderContext).Name);
+            logger.LogInformation("Seed database associated with context {DbContextName}", nameof(OrderContext));
         }
     }
 
@@ -19,7 +19,7 @@ public class OrderContextSeed
     {
         return new List<Order>
         {
-            new Order() {Username = "swn", FirstName = "firstname", LastName = "lastname", Email = "riannegreiros@dev", Address = "Rio", Country = "Brazil", State = "Rio de Janeiro", ZipCode = "999999", TotalPrice = 999 }
+            new() {Username = "swn", FirstName = "firstname", LastName = "lastname", Email = "riannegreiros@dev", Address = "Rio", Country = "Brazil", State = "Rio de Janeiro", ZipCode = "999999", TotalPrice = 999, CardName = "cardName", CardNumber = "cardNumber", Expiration = "expiration", CVV = "123", PaymentMethod = 1, LastModifiedBy = DateTime.UtcNow.ToString()}
         };
     }
 }
