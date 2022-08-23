@@ -20,8 +20,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
-
 builder.Services.AddMassTransit(config =>
 {
     config.AddConsumer<BasketCheckoutConsumer>();
@@ -35,6 +33,10 @@ builder.Services.AddMassTransit(config =>
         });
     });
 });
+
+builder.Services.AddDbContext<OrderContext>();
+
+var app = builder.Build();
 
 app.MigrateDatabase<OrderContext>((context, services) =>
 {
