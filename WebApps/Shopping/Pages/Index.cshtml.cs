@@ -17,6 +17,12 @@ public class IndexModel : PageModel
     }
 
     public IEnumerable<CatalogModel> ProductList { get; set; } = new List<CatalogModel>();
+    
+    public async Task<IActionResult> OnGetAsync()
+    {
+        ProductList = await _catalogService.GetCatalog();
+        return Page();
+    }
 
     public async Task<IActionResult> OnPostAddToCartAsync(string productId)
     {
