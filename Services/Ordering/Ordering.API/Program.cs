@@ -34,7 +34,8 @@ builder.Services.AddMassTransit(config =>
     });
 });
 
-builder.Services.AddDbContext<OrderContext>();
+builder.Services.AddHealthChecks()
+    .AddDbContextCheck<OrderContext>();
 
 var app = builder.Build();
 

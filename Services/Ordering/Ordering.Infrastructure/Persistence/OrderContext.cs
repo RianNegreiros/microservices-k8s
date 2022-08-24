@@ -12,7 +12,7 @@ public class OrderContext : DbContext
 
     public DbSet<Order> Orders { get; set; }
 
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
         foreach (var entry in ChangeTracker.Entries<EntityBase>())
         {
@@ -28,7 +28,6 @@ public class OrderContext : DbContext
                     break;
             }
         }
-
         return base.SaveChangesAsync(cancellationToken);
     }
 }
