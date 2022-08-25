@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-configmap
+data:
+  connection_string: mongodb://username:password@mongo-service:27017
+  database_name: CatalogDb
+  collection_name: Products

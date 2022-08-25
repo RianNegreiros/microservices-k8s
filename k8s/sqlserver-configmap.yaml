@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sqlserver-configmap
+data:
+  ordering_connection_string: Server=orderdb;Database=OrderDb;User Id=sa;Password=SwN12345678

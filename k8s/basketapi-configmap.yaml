@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: basketapi-configmap
+data:
+  catalogapi_url: http://catalogapi-service:8000
+  discount_url: http://discountgrpc-service
+  host_address: amqp://guest:guest@rabbimq-service:5672
