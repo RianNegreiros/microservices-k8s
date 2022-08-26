@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shoppingapp-deployment
+  labels:
+    app: shoppingapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shoppingapp
+  template:
+    metadata:
+      labels:
+        app: shoppingapp
+    spec:
+      containers:
+        - name: shoppingapp
+          image: ecommercemicroservicesacr.azurecr.io/shoppingwebapp:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: ApiSettings__GatewayAddress
+              valueFrom:
+                  configMapKeyRef:
+                    name: ocelotapigw-configmap
+                    key: gateway_address
+      imagePullSecrets:
+        - name: acr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shoppingapp-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: shoppingapp
+  ports:
+    - protocol: TCP
+      port: 80

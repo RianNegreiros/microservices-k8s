@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderingapi-deployment
+  labels:
+    app: orderingapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orderingapi
+  template:
+    metadata:
+      labels:
+        app: orderingapi
+    spec:
+      containers:
+        - name: orderingapi
+          image: ecommercemicroservicesacr.azurecr.io/orderingapi:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: ConnectionStrings__OrderingConnectionString
+              valueFrom:
+                  configMapKeyRef:
+                    name: sqlserver-configmap
+                    key: ordering_connection_string
+            - name: EventBusSettings__HostAddress
+              valueFrom:
+                configMapKeyRef:
+                  name: rabbitmq-configmap
+                  key: host_address
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+      imagePullSecrets:
+        - name: acr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orderingapi-service
+spec:
+  selector:
+    app: orderingapi
+  ports:
+    - protocol: TCP
+      port: 80

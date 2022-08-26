@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shoppingaggregator-deployment
+  labels:
+    app: shoppingaggregator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shoppingaggregator
+  template:
+    metadata:
+      labels:
+        app: shoppingaggregator
+    spec:
+      containers:
+        - name: shoppingaggregator
+          image: ecommercemicroservicesacr.azurecr.io/shoppingagregator:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: ApiSettings__CatalogtUrl
+              valueFrom:
+                configMapKeyRef:
+                  name: shoppingaggregator-configmap
+                  key: catalogapi_url
+            - name: ApiSettings__BasketUrl
+              valueFrom:
+                configMapKeyRef:
+                  name: shoppingaggregator-configmap
+                  key: basketapi_url
+            - name: ApiSettings__OrderingUrl
+              valueFrom:
+                configMapKeyRef:
+                  name: shoppingaggregator-configmap
+                  key: orderingapi_url
+      imagePullSecrets:
+        - name: acr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shoppingaggregator-service
+spec:
+  selector:
+    app: shoppingaggregator
+  ports:
+    - protocol: TCP
+      port: 80

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ocelotapigw-deployment
+  labels:
+    app: ocelotapigw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ocelotapigw
+  template:
+    metadata:
+      labels:
+        app: ocelotapigw
+    spec:
+      containers:
+        - name: ocelotapigw
+          image: ecommercemicroservicesacr.azurecr.io/ocelotapigw:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+      imagePullSecrets:
+        - name: acr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ocelotapigw-service
+spec:
+  selector:
+    app: ocelotapigw
+  ports:
+    - protocol: TCP
+      port: 80
