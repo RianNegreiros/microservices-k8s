@@ -18,13 +18,6 @@ spec:
         - name: sqlserver
           image: mcr.microsoft.com/mssql/server
           imagePullPolicy: IfNotPresent
-          resources:
-            requests:
-              memory: "2G"
-              cpu: "2000m"
-            limits:
-              memory: "2G"
-              cpu: "2000m"
           ports:
             - containerPort: 1433
           env:
@@ -47,4 +40,3 @@ spec:
     - protocol: TCP
       port: 1433
       targetPort: 1433
-  type: LoadBalancer

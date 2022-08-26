@@ -28,13 +28,6 @@ spec:
                   configMapKeyRef:
                     name: mongo-configmap
                     key: connection_string
-          resources:
-            requests:
-              memory: "64Mi"
-              cpu: "250m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
 ---
 apiVersion: v1
 kind: Service
@@ -48,4 +41,4 @@ spec:
     - protocol: TCP
       port: 8000
       targetPort: 80
-      nodePort: 30000
+      nodePort: 31100

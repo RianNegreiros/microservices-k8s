@@ -28,13 +28,6 @@ spec:
                   configMapKeyRef:
                     name: shoppingapp-configmap
                     key: gateway_address
-          resources:
-            requests:
-              memory: "64Mi"
-              cpu: "250m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
 ---
 apiVersion: v1
 kind: Service
@@ -46,6 +39,6 @@ spec:
     app: shoppingapp
   ports:
     - protocol: TCP
-      port: 8006
+      port: 8001
       targetPort: 80
-      nodePort: 30600
+      nodePort: 30000
