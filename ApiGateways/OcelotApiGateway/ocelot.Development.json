@@ -38,7 +38,7 @@
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/v1/Basket/{userName}",
+      "DownstreamPathTemplate": "/api/v1/Basket/{username}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -46,7 +46,7 @@
           "Port": "80"
         }
       ],
-      "UpstreamPathTemplate": "/Basket/{userName}",
+      "UpstreamPathTemplate": "/Basket/{username}",
       "UpstreamHttpMethod": [ "GET", "DELETE" ]
     },
     {
@@ -105,7 +105,7 @@
       "UpstreamHttpMethod": [ "PUT", "POST" ]
     },
     {
-      "DownstreamPathTemplate": "/api/v1/Order/{userName}",
+      "DownstreamPathTemplate": "/api/v1/Order/{username}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -113,11 +113,11 @@
           "Port": "80"
         }
       ],
-      "UpstreamPathTemplate": "/Order/{userName}",
+      "UpstreamPathTemplate": "/Order/{username}",
       "UpstreamHttpMethod": [ "GET" ]
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:7045"
+    "BaseUrl": "http://ocelotapigw-service"
   }
 }
