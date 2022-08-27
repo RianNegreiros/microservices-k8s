@@ -27,7 +27,7 @@ public class CatalogController : ControllerBase
         return Ok(products);
     }
 
-    [HttpGet("{id:length(25)}", Name = "GetProduct")]
+    [HttpGet("{id:length(24)}", Name = "GetProduct")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<Product>> GetProductById(string id)
