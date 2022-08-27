@@ -14,9 +14,9 @@ public class BasketRepository : IBasketRepository
         _redisCache = redisCache ?? throw new ArgumentNullException(nameof(redisCache));
     }
 
-    public async Task<ShoppingCart?> GetBasket(string userName)
+    public async Task<ShoppingCart?> GetBasket(string username)
     {
-        var basket = await _redisCache.GetStringAsync(userName);
+        var basket = await _redisCache.GetStringAsync(username);
 
         if (String.IsNullOrEmpty(basket)) return null;
 
@@ -25,9 +25,9 @@ public class BasketRepository : IBasketRepository
 
     public async Task<ShoppingCart> UpdateBasket(ShoppingCart basket)
     {
-        await _redisCache.SetStringAsync(basket.UserName, JsonConvert.SerializeObject(basket));
+        await _redisCache.SetStringAsync(basket.Username, JsonConvert.SerializeObject(basket));
 
-        return await GetBasket(basket.UserName);
+        return await GetBasket(basket.Username);
     }
 
     public async Task DeleteBasket(string userName)

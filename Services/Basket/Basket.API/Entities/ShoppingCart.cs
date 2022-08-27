@@ -7,12 +7,12 @@ public class ShoppingCart
         
     }
 
-    public ShoppingCart(string userName)
+    public ShoppingCart(string username)
     {
-        UserName = userName;
+        Username = username;
     }
 
-    public string UserName { get; set; }
+    public string Username { get; set; }
 
     public List<ShoppingCartItem> Items { get; set; } = new List<ShoppingCartItem>();
     
