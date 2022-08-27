@@ -5,11 +5,11 @@ using Shopping.Models;
 
 namespace Shopping.Pages;
 
-public class Order : PageModel
+public class OrderModel : PageModel
 {
     private readonly IOrderService _orderService;
 
-    public Order(IOrderService orderService)
+    public OrderModel(IOrderService orderService)
     {
         _orderService = orderService ?? throw new ArgumentNullException(nameof(orderService));
     }
