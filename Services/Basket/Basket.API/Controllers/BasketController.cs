@@ -14,11 +14,11 @@ namespace Basket.API.Controllers;
 public class BasketController : ControllerBase
 {
     private readonly IBasketRepository _repository;
-    private readonly DiscountService _discountService;
+    private readonly DiscountGrpcService _discountService;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly IMapper _mapper;
 
-    public BasketController(IBasketRepository repository, DiscountService discountService, IMapper mapper, IPublishEndpoint publishEndpoint)
+    public BasketController(IBasketRepository repository, DiscountGrpcService discountService, IMapper mapper, IPublishEndpoint publishEndpoint)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         _discountService = discountService ?? throw new ArgumentNullException(nameof(discountService));
@@ -28,10 +28,10 @@ public class BasketController : ControllerBase
 
     [HttpGet("{username}", Name = "GetBasket")]
     [ProducesResponseType(typeof(ShoppingCart), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<ShoppingCart>> GetBasket(string userName)
+    public async Task<ActionResult<ShoppingCart>> GetBasket(string username)
     {
-        var basket = await _repository.GetBasket(userName);
-        return Ok(basket ?? new ShoppingCart(userName));
+        var basket = await _repository.GetBasket(username);
+        return Ok(basket ?? new ShoppingCart(username));
     }
 
     [HttpPost]
@@ -49,9 +49,9 @@ public class BasketController : ControllerBase
     
     [HttpDelete("{username}", Name = "DeleteBasket")]
     [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<ShoppingCart>> DeleteBasket(string userName)
+    public async Task<ActionResult<ShoppingCart>> DeleteBasket(string username)
     {
-        await _repository.DeleteBasket(userName);
+        await _repository.DeleteBasket(username);
         return Ok();
     }
 
@@ -71,7 +71,7 @@ public class BasketController : ControllerBase
         eventMessage.TotalPrice = basket.TotalPrice;
         await _publishEndpoint.Publish(eventMessage);
         
-        await _repository.DeleteBasket(basket.UserName);
+        await _repository.DeleteBasket(basket.Username);
 
         return Accepted();
     }
