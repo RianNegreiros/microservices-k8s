@@ -1,4 +1,4 @@
-using Discount.API.Entities;
+using Discount.Grpc.Entities;
 
 namespace Discount.Grpc.Interfaces;
 

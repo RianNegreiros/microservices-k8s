@@ -1,7 +1,7 @@
 
 using AutoMapper;
-using Discount.API.Entities;
-using Discount.API.Interfaces;
+using Discount.Grpc.Entities;
+using Discount.Grpc.Interfaces;
 using Discount.Grpc.Protos;
 using Grpc.Core;
 
