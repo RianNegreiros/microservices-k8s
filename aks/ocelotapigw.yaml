@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: ocelotapigw
-          image: ecommercemicroservicesacr.azurecr.io/ocelotapigw:v1
+          image: shoppingmicroservicesacr.azurecr.io/ocelotapigw:v1
           imagePullPolicy: Always
           ports:
             - containerPort: 80

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: orderingapi
-          image: ecommercemicroservicesacr.azurecr.io/orderingapi:v1
+          image: shoppingmicroservicesacr.azurecr.io/orderingapi:v1
           imagePullPolicy: Always
           ports:
             - containerPort: 80

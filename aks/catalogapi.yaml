@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: catalogapi
-          image: ecommercemicroservicesacr.azurecr.io/catalogapi:v1
+          image: shoppingmicroservicesacr.azurecr.io/catalogapi:v1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80

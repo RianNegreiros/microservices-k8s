@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: shoppingaggregator
-          image: ecommercemicroservicesacr.azurecr.io/shoppingagregator:v1
+          image: shoppingmicroservicesacr.azurecr.io/shoppingaggregator:v1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80

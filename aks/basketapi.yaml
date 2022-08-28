@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: basketapi
-          image: ecommercemicroservicesacr.azurecr.io/basketapi:v1
+          image: shoppingmicroservicesacr.azurecr.io/basketapi:v1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80

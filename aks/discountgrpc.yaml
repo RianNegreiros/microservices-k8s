@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: discountgrpc
-          image: ecommercemicroservicesacr.azurecr.io/discountgrpc:v1
+          image: shoppingmicroservicesacr.azurecr.io/discountgrpc:v1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
