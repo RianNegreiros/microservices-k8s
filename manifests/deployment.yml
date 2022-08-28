@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: catalogapi 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalogapi
+  template:
+    metadata:
+      labels:
+        app: catalogapi 
+    spec:
+      containers:
+        - name: catalogapi 
+          image: shoppingmicroservicesacr.azurecr.io/catalogapi
+          ports:
+          - containerPort: 80
