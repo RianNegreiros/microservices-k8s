@@ -8,7 +8,7 @@ trigger:
     - main
   paths:
     include:
-    - Services/Discount/Discount.GRPC/*
+    - Services/Discount/Discount.Grpc/*
     - aks/discountgrpc.yaml
 
 resources:
@@ -20,7 +20,7 @@ variables:
   dockerRegistryServiceConnection: 'ded6cf0c-744b-415f-9a29-3f71ed85f520'
   imageRepository: 'discountgrpc'
   containerRegistry: 'shoppingmicroservicesacr.azurecr.io'
-  dockerfilePath: 'Services/Discount/Discount.GRPC/Dockerfile'
+  dockerfilePath: 'Services/Discount/Discount.Grpc/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'shoppingmicroservicesacr8768ed0e-auth'
 
