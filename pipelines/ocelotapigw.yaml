@@ -9,7 +9,7 @@ trigger:
   paths:
     include:
     - ApiGateways/OcelotApiGateway/*
-    - aks/ocelotapiwgw.yaml
+    - aks/ocelotapigw.yaml
 
 resources:
 - repo: self
