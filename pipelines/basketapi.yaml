@@ -20,7 +20,7 @@ variables:
   dockerRegistryServiceConnection: 'ded6cf0c-744b-415f-9a29-3f71ed85f520'
   imageRepository: 'basketapi'
   containerRegistry: 'shoppingmicroservicesacr.azurecr.io'
-  dockerfilePath: '**/Dockerfile'
+  dockerfilePath: 'Services/Basket/Basket.API/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'shoppingmicroservicesacr8768ed0e-auth'
 

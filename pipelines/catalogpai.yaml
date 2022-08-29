@@ -20,7 +20,7 @@ variables:
   dockerRegistryServiceConnection: 'ded6cf0c-744b-415f-9a29-3f71ed85f520'
   imageRepository: 'catalogapi'
   containerRegistry: 'shoppingmicroservicesacr.azurecr.io'
-  dockerfilePath: '**/Dockerfile'
+  dockerfilePath: 'Services/Catalog/Catalog.API/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'shoppingmicroservicesacr8768ed0e-auth'
 
