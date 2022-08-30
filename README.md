@@ -1,15 +1,16 @@
 # E-commerce Microservices
 
 ### Deploy to Azure Kubernetes Services (AKS) through CI/CD Azure Pipelines
-[![Build Status](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_apis/build/status/catalogapi-pipeline?branchName=main)](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_build/latest?definitionId=15&branchName=main)
-[![Build Status](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_apis/build/status/basketapi-pipeline?branchName=main)](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_build/latest?definitionId=5&branchName=main)
-[![Build Status](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_apis/build/status/discountapi-pipeline?branchName=main)](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_build/latest?definitionId=7&branchName=main)
-[![Build Status](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_apis/build/status/discountapi-pipeline?branchName=main)](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_build/latest?definitionId=7&branchName=main)
-[![Build Status](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_apis/build/status/discountgrpc-pipeline?branchName=main)](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_build/latest?definitionId=13&branchName=main)
-[![Build Status](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_apis/build/status/orderingapi-pipeline?branchName=main)](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_build/latest?definitionId=8&branchName=main)
-[![Build Status](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_apis/build/status/ocelotapigw-pipeline?branchName=main)](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_build/latest?definitionId=14&branchName=main)
-[![Build Status](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_apis/build/status/shoppingaggregatorgateway-pipeline?branchName=main)](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_build/latest?definitionId=12&branchName=main)
-[![Build Status](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_apis/build/status/shoppingwebapp-pipeline?branchName=main)](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_build/latest?definitionId=6&branchName=main)
+| Image | Status|
+| ------------- | ------------- |
+| Catalog API | [![Build Status](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_apis/build/status/catalogapi-pipeline?branchName=main)](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_build/latest?definitionId=15&branchName=main) |
+| Basket API | [![Build Status](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_apis/build/status/basketapi-pipeline?branchName=main)](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_build/latest?definitionId=5&branchName=main) |
+| Discount API | [![Build Status](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_apis/build/status/discountapi-pipeline?branchName=main)](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_build/latest?definitionId=7&branchName=main) |
+| Ordering API | [![Build Status](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_apis/build/status/orderingapi-pipeline?branchName=main)](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_build/latest?definitionId=8&branchName=main) |
+| Discount GRPC |[![Build Status](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_apis/build/status/discountgrpc-pipeline?branchName=main)](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_build/latest?definitionId=13&branchName=main) |
+| Ocelot API Gateway |[![Build Status](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_apis/build/status/ocelotapigw-pipeline?branchName=main)](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_build/latest?definitionId=14&branchName=main) |
+| Shopping Agreggator |[![Build Status](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_apis/build/status/shoppingaggregatorgateway-pipeline?branchName=main)](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_build/latest?definitionId=12&branchName=main) |
+|Shopping Web |[![Build Status](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_apis/build/status/shoppingwebapp-pipeline?branchName=main)](https://dev.azure.com/riannegreiros/EcommerceMicroservices/_build/latest?definitionId=6&branchName=main) |
 
 ## Features
 
