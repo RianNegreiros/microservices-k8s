@@ -77,7 +77,7 @@
 1 - At the root directory which include docker-compose.yml, run:
 
 ```bash
-docker-compose up
+docker-compose up --build
 ```
 
 2 - Wait for docker compose all microservices.
@@ -96,4 +96,4 @@ docker-compose up
 
 * **Web UI -> <http://localhost:8006>**
 
-![Web UI Screenshot](/documentation/images/shoppingappScreenshot.png)
+![Web UI Screenshot](/WebApps/Shopping/Public/documentation/images/shoppingappScreenshot.png)
